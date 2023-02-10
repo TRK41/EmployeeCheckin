@@ -1,8 +1,9 @@
 const express = require('express');
+const cTable = require('console.table');
 // Import and require mysql2
 const mysql = require('mysql2');
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3006;
 const app = express();
 
 // Express middleware
@@ -16,26 +17,26 @@ const db = mysql.createConnection(
     // MySQL username,
     user: 'root',
     // MySQL password
-    password: '',
+    password: 'RoPaosts74$!',
     database: 'employee_db'
   },
   console.log(`Connected to the employee_db database.`)
+  
 );
+// Query database
+// let deletedRow = 2;
+
+// db.query(`DELETE FROM department WHERE id = ?`, deletedRow, (err, result) => {
+//   if (err) {
+//     console.log(err);
+//   }
+//   console.log(result);
+// });
 
 // Query database
-let deletedRow = 2;
-
-db.query(`DELETE FROM department WHERE id = ?`, deletedRow, (err, result) => {
-  if (err) {
-    console.log(err);
-  }
-  console.log(result);
-});
-
-// Query database
-db.query('SELECT * FROM department', function (err, results) {
-  console.log(results);
-});
+// db.query('SELECT * FROM department', function (err, results) {
+//   console.log(results);
+// });
 
 // Default response for any other request (Not Found)
 app.use((req, res) => {

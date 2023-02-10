@@ -7,7 +7,7 @@ VALUES (001,"Sales"),
 
 
 
-INSERT INTO role (id, title, salary, department_id)
+INSERT INTO role
 VALUES (001,"Sales Lead",100000,001),
        (002,"Salesperson",80000,001),
        (003,"Lead Engineer",150000,002),
@@ -20,7 +20,7 @@ VALUES (001,"Sales Lead",100000,001),
 
 
 
-INSERT INTO employee (id,first_name, last_name,role_id, manager_id)
+INSERT INTO employee
 VALUES (001,"John","Doe",001,null),
        (002,"Mike","Chan",002,001),
        (003,"Ashley","Rodriguez",003,null),

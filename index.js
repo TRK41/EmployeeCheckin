@@ -2,6 +2,8 @@ const inquirer = require("inquirer");
 // const db = require("../EmployeeCheckin/server.js");
 const cTable = require("console.table");
 const mysql = require('mysql2');
+const department = []
+
 
 const db = mysql.createConnection(
     {
@@ -44,12 +46,6 @@ function loadMainPrompts() {
                     "Add Employee",
                     "Update Employee Role",
                     "View All Employees By Department",
-                    
-                    
-                    
-                    
-                    
-                    
                 ]
 
             }
@@ -72,7 +68,7 @@ function loadMainPrompts() {
                     addRoles();
                     break;
                 case "Add Employee":
-                    addEmployees();
+                    addEmployee();
                     break;
                 case "Update Employee Role":
                     updateEmployeeRole();
@@ -150,3 +146,104 @@ function viewAllDepartment() {
             loadMainPrompts();
         })
 };
+
+const addDepartment = () => {
+    return inquirer
+        .prompt([
+            {
+                type: 'input',
+                message: 'enter the name of the department',
+                name: 'addDepartment'
+            }
+        ]).then((answer) => {
+            db.query(`INSERT INTO department SET? `, {
+                name: answer.addDepartment,
+            });
+            loadMainPrompts();
+        })
+}
+
+
+
+const addRoles = () => {
+    return inquirer
+        .prompt([
+            {
+                type: 'input',
+                message: 'enter the name of the role',
+                name: 'addRole'
+            },
+            {
+                type: 'input',
+                message: 'what is the salary of the role',
+                name: 'addSalary'
+            },
+            {
+                type: 'list',
+                name: 'roleChoices',
+                message: 'what is the salary of the role',
+                choices: [
+                    "Sales",
+                    "Engineering",
+                    "Finance",
+                    "Legal"
+
+                ]
+            }
+        ]).then((answer) => {
+            db.query(`INSERT INTO role SET? `, {
+                addRole: answer.addRole,
+                addSalary: answer.addSalary,
+                roleChoices: answer.roleChoices
+            });
+            loadMainPrompts();
+        })
+}
+const addEmployee = () => {
+    return inquirer
+        .prompt([
+            {
+                type: 'input',
+                message: 'Whats the employees first name',
+                name: 'firstname'
+            },
+            {
+                type: 'input',
+                message: 'Whats the employees first name',
+                name: 'lastname'
+            },
+            {
+                type: 'list',
+                name: 'eRole',
+                message: 'what is the employees role',
+                choices: [
+                    "Sales Lead",
+                    "Salesperson",
+                    "Lead Engineer",
+                    "Software Engineer",
+                    "Account Manager",
+                    "Accountant",
+                    "Legal Team Lead",
+                    "Lawyer"
+                ],
+
+                type: 'list',
+                name: 'eManager',
+                message: 'who is the employees manager',
+                choices: [
+                    "John Doe",
+                    "Ashley Rodriguez",
+                    "Kunal Singh",
+                    "Sarah Lourd"
+                ]
+            }
+        ]).then((answer) => {
+            db.query(`INSERT INTO employee SET? `, {
+                firstName: answer.addRole,
+                lastName: answer.addSalary,
+                eRole: answer.eRole,
+                eManager: answer.eManager
+            });
+            loadMainPrompts();
+        })
+}

@@ -36,24 +36,46 @@ function loadMainPrompts() {
                 message: "What would you like to do?",
                 choices: [
 
-                    "View All Employees",
-                    "View All Employees By Department",
-                    "View All Employees By Manager",
-                    "Add Employee",
-                    "Remove Employee",
-                    "Update Employee Role",
-                    "View All Roles",
-                    "Add Roles",
                     "View All Departments",
+                    "View All Roles",
+                    "View All Employees",
                     "Add Department",
+                    "Add Roles",
+                    "Add Employee",
+                    "Update Employee Role",
+                    "View All Employees By Department",
+                    
+                    
+                    
+                    
+                    
+                    
                 ]
 
             }
         ]).then(function (answer) {
 
             switch (answer.choices) {
+                case "View All Departments":
+                    viewAllDepartment();
+                    break;
+                case "View All Roles":
+                    viewAllRoles();
+                    break;
                 case "View All Employees":
                     viewEmployee();
+                    break;
+                case "Add Department":
+                    addDepartment();
+                    break;
+                case "Add Roles":
+                    addRoles();
+                    break;
+                case "Add Employee":
+                    addEmployees();
+                    break;
+                case "Update Employee Role":
+                    updateEmployeeRole();
                     break;
                 case "View All Employees By Department":
                     viewEmployeesByDepartment();
@@ -61,27 +83,14 @@ function loadMainPrompts() {
                 case "View All Employees By Manager":
                     viewEmployeesByManager();
                     break;
-                case "Add Employee":
-                    addEmployees();
-                    break;
                 case "Remove Employee":
                     removeEmployees();
                     break;
-                case "Update Employee Role":
-                    updateEmployeeRole();
-                    break;
-                case "View All Roles":
-                    viewAllRoles();
-                    break;
-                case "Add Roles":
-                    addRoles();
-                    break;
-                case "View All Department":
-                    viewAllDepartment();
-                    break;
-                case "Add Department":
-                    addDepartment();
-                    break;
+
+
+
+
+
             }
         })
 
@@ -92,7 +101,10 @@ function loadMainPrompts() {
 
 
 function viewEmployee() {
-    db.query('SELECT * FROM employee',
+    db.query(`SELECT employee.id, employee.first_name, employee.last_name, role.title AS job_title, department.name AS department, role.salary,employee.manager_id AS Manager
+            FROM ((Employee
+            INNER JOIN Role ON employee.role_id = role.id)
+            INNER JOIN Department ON Role.department_id = Department.id)`,
         function (err, results) {
             console.table(results);
             loadMainPrompts();
@@ -103,18 +115,36 @@ function viewEmployeesByDepartment() {
     db.query(`SELECT Employee.First_name, Employee.Last_name, Department.name 
         FROM ((Employee 
         INNER JOIN Role ON Employee.role_id = Role.id)
-        INNER JOIN Department ON Role.department_id = Department.id);`,
+        INNER JOIN Department ON Role.department_id = Department.id)`,
         function (err, results) {
             console.table(results);
             loadMainPrompts();
         })
 };
 
-function viewEmployeesByManager() {
-    db.query(`SELECT Employee.First_name, Employee.Last_name, Department.name 
-        FROM ((Employee 
-        INNER JOIN Role ON Employee.role_id = Role.id)
-        INNER JOIN Department ON Role.department_id = Department.id);`,
+// function viewEmployeesByManager() {
+//     db.query(`SELECT Employee.First_name, Employee.Last_name, Department.name 
+//         FROM (Employee 
+//         INNER JOIN Role ON Employee.role_id = Role.id)
+//         INNER JOIN Department ON Role.department_id = Department.id);`,
+//         function (err, results) {
+//             console.table(results);
+//             loadMainPrompts();
+//         })
+// };
+
+function viewAllRoles() {
+    db.query(`SELECT Role.id, Role.title, Department.name AS department, Role.salary
+            FROM Role
+            INNER JOIN Department ON Role.department_id = Department.id`,
+        function (err, results) {
+            console.table(results);
+            loadMainPrompts();
+        })
+};
+
+function viewAllDepartment() {
+    db.query('SELECT id, name AS DEPARTMENT FROM department',
         function (err, results) {
             console.table(results);
             loadMainPrompts();

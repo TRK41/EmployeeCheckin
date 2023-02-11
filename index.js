@@ -20,12 +20,10 @@ const db = mysql.createConnection(
 init();
 
 function init() {
-    // const logoText = logo({ name: "Employee Checkin"}).render();
+    
 
 
-    // console.table( db.query[department]);
-    // console.table([role]);
-    // console.table([employee]);
+   
     loadMainPrompts();
 }
 

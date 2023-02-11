@@ -17,13 +17,13 @@ const db = mysql.createConnection(
     // MySQL username,
     user: 'root',
     // MySQL password
-    password: 'RoPaosts74$!',
+    password: 'rootpass',
     database: 'employee_db'
   },
   console.log(`Connected to the employee_db database.`)
   
 );
-// Query database
+// // Query database
 // let deletedRow = 2;
 
 // db.query(`DELETE FROM department WHERE id = ?`, deletedRow, (err, result) => {
@@ -33,9 +33,9 @@ const db = mysql.createConnection(
 //   console.log(result);
 // });
 
-// Query database
+// // Query database
 // db.query('SELECT * FROM department', function (err, results) {
-//   console.log(results);
+//   console.table(results);
 // });
 
 // Default response for any other request (Not Found)
